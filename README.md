@@ -14,7 +14,7 @@ L'araignée peut être exécutée avec la commande suivante :
 ```bash
 scrapy crawl expedia -a origin="Paris" -a destination="Munich" -a departure_date="01/07/2023" -a return_date="15/07/2023 -O output.json"
 ```
-Cette commande lancera le Spider qui va scraper les informations de vol entre Paris et New York, en partant le 1er juillet 2023 et en revenant le 15 juillet 2023.
+Cette commande lancera le Spider qui va scraper les informations de vol entre Paris et Munich, en partant le 1er juillet 2023 et en revenant le 15 juillet 2023.
 
 Notez que la date doit être formatée en `"DD/MM/YYYY"`.
 
