@@ -1,4 +1,4 @@
-# Documentation succincte pour ExpediaSpider
+# Documentation pour ExpediaSpider
 
 Le script `ExpediaSpider` est une araignée Scrapy pour scraper les données de vol du site Expedia.fr.
 
