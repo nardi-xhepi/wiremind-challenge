@@ -85,7 +85,7 @@ class ExpediaSpider(scrapy.Spider):
 
                     for fare in fares:
                         price = fare['priceAccessibilityMessage']
-                        price = price.split('€')[0][-1:] + "€"  #string format is : 'price € useless information'.
+                        price = price.split('€')[0][:-1] + "€"  #string format is : 'price € useless information'.
                         classe = fare["name"]
 
                         yield {
