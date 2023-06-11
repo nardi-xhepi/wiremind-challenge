@@ -1,28 +1,42 @@
 #Scraping script for https://www.transavia.fr
 
 import scrapy
+import random
+import time
 from scrapy_playwright.page import PageMethod
 
 class TransaviaSpider(scrapy.Spider):
     name = 'transavia'
+    allowed_domains = ["www.transavia.com"]
+
+    custom_settings = {
+        'PLAYWRIGHT_BROWSER_TYPE': 'firefox',
+        'DOWNLOAD_DELAY' : 2
+    }
+
 
     def start_requests(self):
-        url = "https://www.transavia.com/"
-        yield scrapy.Request(url,
-            meta=dict(
-                playwright = True,
-                playwright_include_page = True,
-                playwright_page_methods =[PageMethod('wait_for_selector', 'div')],
-            ))
+        url = "https://www.transavia.com/fr-FR/accueil"
+        yield scrapy.Request(url, meta=dict(
+            playwright = True,
+            playwright_include_page = True,
+        ))
 
-    def parse(self, response):
+    async def parse(self, response):
+        page = response.meta["playwright_page"]
+
         print(response.body)
+
+
+
 
 async def parse(response):
     page = response.meta["playwright_page"]
     await page.close()
 
     token = response.css('input[name="__RequestVerificationToken"]::attr(value)').get()
+
+    print("TOKEN : ", token)
 
     formdata = {
         '__RequestVerificationToken': token,

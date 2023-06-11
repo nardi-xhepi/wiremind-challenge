@@ -11,7 +11,6 @@ BOT_NAME = "flight_spiders"
 
 SPIDER_MODULES = ["flight_spiders.spiders"]
 NEWSPIDER_MODULE = "flight_spiders.spiders"
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -97,5 +96,6 @@ DOWNLOAD_HANDLERS = {
 }
 
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
 
 FEED_EXPORT_ENCODING = "utf-8"

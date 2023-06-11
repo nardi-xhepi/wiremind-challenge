@@ -3,7 +3,7 @@
 import scrapy
 import json
 
-class TransaviaSpider(scrapy.Spider):
+class ExpediaSpider(scrapy.Spider):
     name = 'expedia'
     start_urls = ['http://www.expedia.fr/graphql']
 
