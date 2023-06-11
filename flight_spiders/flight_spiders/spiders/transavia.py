@@ -1,31 +1,30 @@
-#Scraping script for https://www.transavia.fr
-
 import scrapy
-import random
-import time
 from scrapy_playwright.page import PageMethod
+from playwright_stealth import stealth_sync
+from urllib .parse import urlencode
+
+API_KEY = 'c011c850258c1fba42cae4781de900bc'
+
+def get_scraperapi_url(url):
+    payload = {'api_key': API_KEY, 'url': url}
+    proxy_url = 'http://api.scraperapi.com/?' + urlencode(payload)
+    return proxy_url
+
 
 class TransaviaSpider(scrapy.Spider):
     name = 'transavia'
     allowed_domains = ["www.transavia.com"]
 
-    custom_settings = {
-        'PLAYWRIGHT_BROWSER_TYPE': 'firefox',
-        'DOWNLOAD_DELAY' : 2
-    }
-
-
     def start_requests(self):
-        url = "https://www.transavia.com/fr-FR/accueil"
+        url = get_scraperapi_url("https://www.transavia.com/fr-FR/")
         yield scrapy.Request(url, meta=dict(
             playwright = True,
-            playwright_include_page = True,
         ))
 
-    async def parse(self, response):
-        page = response.meta["playwright_page"]
-
+    def parse(self, response):
         print(response.body)
+
+
 
 
 
