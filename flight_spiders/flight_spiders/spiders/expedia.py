@@ -7,6 +7,8 @@ class ExpediaSpider(scrapy.Spider):
     name = 'expedia'
     start_urls = ['http://www.expedia.fr/graphql']
 
+
+    #These request headers are necessary, otherwise, expedia.fr/graphql returns an error
     custom_settings = {
         'DEFAULT_REQUEST_HEADERS': {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
@@ -22,7 +24,7 @@ class ExpediaSpider(scrapy.Spider):
         self.bodies = []
 
 
-        #PREMIUM_ECONOMY and BUSINESS class seem to give the same results
+        #PREMIUM_ECONOMY and BUSINESS class seem to give the same results. Therefore, I comment "PREMIUM_ECONOMY" line
 
         body1 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "COACH")
         #body2 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "PREMIUM_ECONOMY")
@@ -74,8 +76,8 @@ class ExpediaSpider(scrapy.Spider):
                     destination = dep_ret[1]
 
                     time = flight['journeys'][0]['departureAndArrivalTime']['completeText'].split("-")
-                    departure_time = time[0]
-                    arrival_time = time[1]
+                    departure_time = time[0].replace(" ", "")
+                    arrival_time = time[1].replace(" ", "")
 
 
                     nr_vol = flight['journeys'][0]['flightsJourneyAvailableFaresInformation']['flightsJourneyInformation']['flightJourneyDetails']['journeySections'][0]['journeyConnectionInformation'][0]['flightsConnection']['airlineInfo']
