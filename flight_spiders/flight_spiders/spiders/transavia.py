@@ -11,7 +11,6 @@ class TransaviaSpider(scrapy.Spider):
 
     custom_settings = {
         "CONCURRENT_REQUESTS" : 1,
-        "DOWNLOAD_DELAY" : 2,
         "DEFAULT_REQUEST_HEADERS" : {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
             'Accept': '*/*',
@@ -19,7 +18,6 @@ class TransaviaSpider(scrapy.Spider):
             'Accept-Encoding': 'gzip, deflate, br',
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'X-Requested-With': 'XMLHttpRequest',
-            'Cookie': 'reese84=3:X4u2QAfRgWd5OCb8X/YZtA==:3P4hRl9CgK4jNnrZ1ToG6KFo+UvsgZl11dzyWGZzY8B0wJSpSlU9W8R9CxW9rzs//hU4jtnhicMDBxIa3YZ+V40+hMtHz3POzsQHOQU+UcmNhKyU+SXCH0V6+AOVodMs+0TFtRwxzqLZeASElCKP5dRO6JCUTwoQaaFj5jwT3vDws5BYqujdn9P/McW9cR1CcoXlawVlv4gGewI9A9XZnVwtoFUQz4U4RHX0yn1hW31z9EaPF3mLrU3CXxegbzbzHKsBZgvhi59LuMk10nN+i5AdlF+HbvzohjBK08aHpaqnHkVhN1KBW4SJ48aFBaAGP9HUKBhxXKRS3qtKNJ3mma1aVgPDkSzsR3A4IRxnfog2Sr6Wq9CAIvTG2yAezMrk5yGOelywsju+awtKiwTqf7Vy0AnmVz5D090NbNweJRMBjoVJFAE+ojvOzCkGBR1IRjoAVQZsIf4N/MGN9MXBoBbRQqmWGMQJi8CczKVAQmCdlepEBl0Z9LDIZ0hqiA80:Sq5UQ0myIpUzqsKUUXnsfNICPaenLJKQZsxPZtT0Y1s=; ; 3; incap_ses_156_2445686=gi7NCe5yQDLjN6IoTToqAgtahmQAAAAALi75QQOezjcl+dDOCLvENA==; nlbi_2445686=DPv+eWveJk4DJtThV7XfuAAAAABUOZjfRxLDUekCu+i7YVL2; visid_incap_2445686=TJUWAhv3Qf63bvkix8FsSV8+g2QAAAAAQkIPAAAAAAA47TRuA3iI2V7mUgZbV4qW; ASP.NET_SessionId=c15u01yhnsblf3nthfjmisf0; SC_ANALYTICS_GLOBAL_COOKIE=a3da8091cb9048ed8f82044875ee98de|False; __RequestVerificationToken=hYs0chGd2GGhEsrDS2ODIlEFfxwVuWuLPPEr0z6G23iI8qqSD88j81DvwoAf1FZvDAWevBBEq9doTG4zo0H844s4wsXEc6Er9UQrxHwc8-k1; sitelang=/fr-FR/; websitefr#lang=fr-FR'
         }
     }
 
@@ -39,27 +37,42 @@ class TransaviaSpider(scrapy.Spider):
 
     def start_requests(self):
 
-        yield scrapy.Request(self.start_urls[0], method='POST')
-        yield scrapy.Request(self.start_urls[1], method='POST')
-        yield scrapy.Request(self.start_urls[1], method='POST')
+        cookies = {
+            "reese84" : '3:X4u2QAfRgWd5OCb8X/YZtA==:3P4hRl9CgK4jNnrZ1ToG6KFo+UvsgZl11dzyWGZzY8B0wJSpSlU9W8R9CxW9rzs//hU4jtnhicMDBxIa3YZ+V40+hMtHz3POzsQHOQU+UcmNhKyU+SXCH0V6+AOVodMs+0TFtRwxzqLZeASElCKP5dRO6JCUTwoQaaFj5jwT3vDws5BYqujdn9P/McW9cR1CcoXlawVlv4gGewI9A9XZnVwtoFUQz4U4RHX0yn1hW31z9EaPF3mLrU3CXxegbzbzHKsBZgvhi59LuMk10nN+i5AdlF+HbvzohjBK08aHpaqnHkVhN1KBW4SJ48aFBaAGP9HUKBhxXKRS3qtKNJ3mma1aVgPDkSzsR3A4IRxnfog2Sr6Wq9CAIvTG2yAezMrk5yGOelywsju+awtKiwTqf7Vy0AnmVz5D090NbNweJRMBjoVJFAE+ojvOzCkGBR1IRjoAVQZsIf4N/MGN9MXBoBbRQqmWGMQJi8CczKVAQmCdlepEBl0Z9LDIZ0hqiA80:Sq5UQ0myIpUzqsKUUXnsfNICPaenLJKQZsxPZtT0Y1s=',
+            "ASP.NET_SessionId" : "itimyqvc0vvywzl5g3wxu3or"
+        }
+
+        yield scrapy.Request(self.start_urls[0], method='POST', body=self.body1, cookies=cookies)
+        yield scrapy.Request(self.start_urls[1], method='POST', body=self.body2, cookies=cookies)
+        yield scrapy.Request(self.start_urls[1], method='POST', body=self.body3, cookies=cookies)
 
     def parse(self, response):
-        if response["TagMan"]['day_view_search']['arrivalStation'] == self.destination:
-            flights = response["TagMan"]['day_view_outbound_flights']
+        data = json.loads(response.body)
+        if(response.url != self.start_urls[0]):
+            if data["TagMan"]["eventData"]['day_view_search']['arrivalStation'] == self.destination:
+                flights = data["TagMan"]["eventData"]['day_view_outbound_flights']
+                single_day = "SingleDayOutbound"
+            else:
+                flights = data["TagMan"]["eventData"]['day_view_inbound_flights']
+                single_day = "SingleDayInbound"
+
             for flight in flights:
                 flight_number = flight['flight_label'] + flight['flight_number']
-                origin = self.origin
-                destination = self.destination
+                origin = flight["departure"]
+                destination = flight["arrival"]
                 departure_time = flight['flight_time']
 
                 date = flight['flight_date'].replace('-', '/')
 
-                flight_container = response.css('.times').xpath(f'//time[contains(@datetime, "{date} {departure_time}")]/..')
-                arrival_time = flight_container.css('time.arrival::text').get()
 
+                html = data[single_day]
+                selector = scrapy.Selector(text=html)
+
+                arrival_time = selector.xpath(f'//div[@class="times"][.//time[@class="departure"][starts-with(@datetime, "{date}")][normalize-space()="{departure_time}"]]/time/text()').getall()[1]
 
                 cabinClass = flight['flight_class']
                 price = flight['flight_cost'] + '€'
+
 
                 yield {
                     "Flight Number" : flight_number,
