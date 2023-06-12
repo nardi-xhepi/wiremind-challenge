@@ -101,3 +101,13 @@ class FlightSpidersDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+
+
+import logging
+
+class LogRequestMiddleware:
+    def process_request(self, request, spider):
+        logging.info(f"Sending request to {request.url} with method {request.method}, headers {request.headers}, and body {request.body}")
+
