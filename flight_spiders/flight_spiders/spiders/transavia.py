@@ -68,7 +68,7 @@ class TransaviaSpider(scrapy.Spider):
                 html = data[single_day]
                 selector = scrapy.Selector(text=html)
 
-                arrival_time = selector.xpath(f'//div[@class="times"][.//time[@class="departure"][starts-with(@datetime, "{date}")][normalize-space()="{departure_time}"]]/time/text()').getall()[1]
+                arrival_time = selector.xpath(f'//div[@class="times"][.//time[@class="departure"][starts-with(@datetime, "{date}")][normalize-space()="{departure_time}"]]/time/text()').getall()[1].replace(" ", "")
 
                 cabinClass = flight['flight_class']
                 price = flight['flight_cost'] + '€'
