@@ -39,7 +39,7 @@ class TransaviaSpider(scrapy.Spider):
 
         cookies = {
             "reese84" : '3:X4u2QAfRgWd5OCb8X/YZtA==:3P4hRl9CgK4jNnrZ1ToG6KFo+UvsgZl11dzyWGZzY8B0wJSpSlU9W8R9CxW9rzs//hU4jtnhicMDBxIa3YZ+V40+hMtHz3POzsQHOQU+UcmNhKyU+SXCH0V6+AOVodMs+0TFtRwxzqLZeASElCKP5dRO6JCUTwoQaaFj5jwT3vDws5BYqujdn9P/McW9cR1CcoXlawVlv4gGewI9A9XZnVwtoFUQz4U4RHX0yn1hW31z9EaPF3mLrU3CXxegbzbzHKsBZgvhi59LuMk10nN+i5AdlF+HbvzohjBK08aHpaqnHkVhN1KBW4SJ48aFBaAGP9HUKBhxXKRS3qtKNJ3mma1aVgPDkSzsR3A4IRxnfog2Sr6Wq9CAIvTG2yAezMrk5yGOelywsju+awtKiwTqf7Vy0AnmVz5D090NbNweJRMBjoVJFAE+ojvOzCkGBR1IRjoAVQZsIf4N/MGN9MXBoBbRQqmWGMQJi8CczKVAQmCdlepEBl0Z9LDIZ0hqiA80:Sq5UQ0myIpUzqsKUUXnsfNICPaenLJKQZsxPZtT0Y1s=',
-            "ASP.NET_SessionId" : "itimyqvc0vvywzl5g3wxu3or"
+            #"ASP.NET_SessionId" : "itimyqvc0vvywzl5g3wxu3or"
         }
 
         yield scrapy.Request(self.start_urls[0], method='POST', body=self.body1, cookies=cookies)
