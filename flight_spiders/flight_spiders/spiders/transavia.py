@@ -28,10 +28,11 @@ class TransaviaSpider(scrapy.Spider):
         self.origin = origin
         self.destination = destination
 
-
         self.body1 = f'selectPassengersCount.AdultCount=1&selectPassengersCount.ChildCount=0&selectPassengersCount.InfantCount=0&routeSelection.DepartureStation={origin}&routeSelection.ArrivalStation={destination}&dateSelection.OutboundDate.Day={dep_date[0]}&dateSelection.OutboundDate.Month={dep_date[1]}&dateSelection.OutboundDate.Year={dep_date[2]}&dateSelection.InboundDate.Day={ret_date[0]}&dateSelection.InboundDate.Month={ret_date[1]}&dateSelection.InboundDate.Year={ret_date[2]}&dateSelection.IsReturnFlight=true&flyingBlueSearch.FlyingBlueSearch=false'
         self.body2 = f'selectSingleDayAvailability.JourneyType=OutboundFlight&selectSingleDayAvailability.Date.DateToParse={dep_date[2]}-{dep_date[1]}-{dep_date[0]}&selectSingleDayAvailability.AutoSelect=false'
         self.body3 = f'selectSingleDayAvailability.JourneyType=InboundFlight&selectSingleDayAvailability.Date.DateToParse={ret_date[2]}-{ret_date[1]}-{ret_date[0]}&selectSingleDayAvailability.AutoSelect=false'
+
+        self.bodies = [self.body1, self.body2, self.body3]
 
 
 
@@ -42,9 +43,13 @@ class TransaviaSpider(scrapy.Spider):
             "ASP.NET_SessionId" : "itimyqvc0vvywzl5g3wxu3or"
         }
 
-        yield scrapy.Request(self.start_urls[0], method='POST', body=self.body1, cookies=cookies)
-        yield scrapy.Request(self.start_urls[1], method='POST', body=self.body2, cookies=cookies)
-        yield scrapy.Request(self.start_urls[1], method='POST', body=self.body3, cookies=cookies)
+        for i in range(len(self.bodies)):
+            if i == 0:
+                url = self.start_urls[0]
+            else:
+                url = self.start_urls[1]
+
+            yield scrapy.Request(url, method='POST', body=self.bodies[i], cookies=cookies)
 
     def parse(self, response):
         data = json.loads(response.body)

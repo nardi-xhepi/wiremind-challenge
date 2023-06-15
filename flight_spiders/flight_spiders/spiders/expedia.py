@@ -21,30 +21,13 @@ class ExpediaSpider(scrapy.Spider):
         self.dep_date = [int(x) for x in departure_date.split("/")]
         self.ret_date = [int(x) for x in return_date.split("/")]
 
-        self.bodies = []
-
-
+        classes = ["COACH", "BUSINESS", "FIRST"]
         #PREMIUM_ECONOMY and BUSINESS class seem to give the same results. Therefore, I comment "PREMIUM_ECONOMY" line
 
-        body1 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "COACH")
-        #body2 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "PREMIUM_ECONOMY")
-        body3 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "BUSINESS")
-        body31 = get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, "FIRST")
+        self.body_dep = [get_body(self.dep_date[0], self.dep_date[1], self.dep_date[2], origin, destination, cabinClass) for cabinClass in classes]
+        self.body_ret = [get_body(self.ret_date[0], self.ret_date[1], self.ret_date[2], destination, origin, cabinClass) for cabinClass in classes]
 
-        body4 = get_body(self.ret_date[0], self.ret_date[1], self.ret_date[2], destination, origin, "COACH")
-        #body5 = get_body(self.ret_date[0], self.ret_date[1], self.ret_date[2], destination, origin, "PREMIUM_ECONOMY")
-        body6 = get_body(self.ret_date[0], self.ret_date[1], self.ret_date[2], destination, origin, "BUSINESS")
-        body61 = get_body(self.ret_date[0], self.ret_date[1], self.ret_date[2], destination, origin, "FIRST")
-
-        self.bodies.append(body1)
-        #self.bodies.append(body2)
-        self.bodies.append(body3)
-        self.bodies.append(body31)
-
-        self.bodies.append(body4)
-        #self.bodies.append(body5)
-        self.bodies.append(body6)
-        self.bodies.append(body61)
+        self.bodies = self.body_dep + self.body_ret
 
         super().__init__(**kwargs)
 
