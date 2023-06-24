@@ -1,55 +1,43 @@
-# Documentation pour ExpediaSpider
+# Flight Data Scraping Spiders Documentation
 
-Le script `ExpediaSpider` est une araignée Scrapy pour scraper les données de vol du site Expedia.fr.
+This repository contains two Scrapy spiders, `ExpediaSpider` and `TransaviaSpider`, used to scrape flight data from different websites. Both spiders provide the following flight details: flight number, origin, destination, departure time, arrival time, class, and price.
 
-## Pré-requis
+## Common Requirements
 - Python 3.7+
-- Scrapy (Installez avec `pip install scrapy`)
+- Scrapy (Install with `pip install scrapy`)
 
-## Utilisation
+## Usage
 
-Cette araignée Scrapy a besoin de quatre arguments lors de l'exécution : `origin`, `destination`, `departure_date`, `return_date`.
+### ExpediaSpider
 
-L'araignée peut être exécutée avec la commande suivante :
+The `ExpediaSpider` is used to scrape flight data from Expedia.fr.
+
+#### Usage Example:
 ```bash
 scrapy crawl expedia -a origin="Paris" -a destination="Munich" -a departure_date="01/07/2023" -a return_date="15/07/2023" -O expedia.json
 ```
-Cette commande lancera le Spider qui va scraper les informations de vol entre Paris et Munich, en partant le 1er juillet 2023 et en revenant le 15 juillet 2023.
 
-Notez que la date doit être formatée en `"DD/MM/YYYY"`.
+This command will start the `ExpediaSpider` to scrape flight information between Paris and Munich, departing on July 1, 2023, and returning on July 15, 2023.
 
-## Output
-L'araignée retournera une liste de vols disponibles avec les détails suivants : numéro de vol, origine, destination, heure de départ, heure d'arrivée, classe et prix.
+Please note that the date must be formatted as `"DD/MM/YYYY"`.
 
-## Notes
+### TransaviaSpider
 
-Ce script utilise le contenu de l'appel API étudié sur le site de expedia.fr
+The `TransaviaSpider` is used to scrape flight data from transavia.com.
 
-
-
-# Documentation pour TransaviaSpider
-
-Le script `TransaviaSpider` est une araignée Scrapy pour scraper les données de vol du site transavia.com.
-
-## Pré-requis
-- Python 3.7+
-- Scrapy (Installez avec `pip install scrapy`)
-
-## Utilisation
-
-Cette araignée Scrapy a besoin de quatre arguments lors de l'exécution : `origin`, `destination`, `departure_date`, `return_date`.
-
-L'araignée peut être exécutée avec la commande suivante :
+#### Usage Example:
 ```bash
 scrapy crawl transavia -a origin="ORY" -a destination="FCO" -a departure_date="01/07/2023" -a return_date="15/07/2023" -O transavia.json
 ```
-Cette commande lancera le Spider qui va scraper les informations de vol entre Paris et Rome, en partant le 1er juillet 2023 et en revenant le 15 juillet 2023.
 
-Notez que la date doit être formatée en `"DD/MM/YYYY"`. Egalement, vous devez insérer comme nom d'aéroport les identifiants fournis par transavia pour chaque aéroport. Il n'est malheuresement pas possible de mettre directement le nom de la ville de destination.
+This command will start the `TransaviaSpider` to scrape flight information between Paris and Rome, departing on July 1, 2023, and returning on July 15, 2023.
+
+Please note that the date must be formatted as `"DD/MM/YYYY"`. Additionally, you need to input airport identifiers provided by Transavia for each airport. Unfortunately, it is not possible to directly use the city name as the destination.
 
 ## Output
-L'araignée retournera une liste de vols disponibles avec les détails suivants : numéro de vol, origine, destination, heure de départ, heure d'arrivée, classe et prix.
+
+Both spiders will return a list of available flights with the following details: flight number, origin, destination, departure time, arrival time, class, and price.
 
 ## Notes
 
-Ce script utilise le contenu de l'appel API étudié sur le site de transavia.fr
+Both scripts utilize the API call content found on the respective websites (Expedia.fr for `ExpediaSpider` and transavia.com for `TransaviaSpider`).
