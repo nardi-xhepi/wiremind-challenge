@@ -1,6 +1,6 @@
 [
-{"Flight Number": "TO3912", "Origin": "ORY", "Destination": "FCO", "Departure time": "14:55", "Arrival time": "16:55", "comfort title": null, "Price": "266.00€"},
-{"Flight Number": "TO3950", "Origin": "ORY", "Destination": "FCO", "Departure time": "20:35", "Arrival time": "22:35", "comfort title": null, "Price": "298.00€"},
-{"Flight Number": "TO6951", "Origin": "FCO", "Destination": "ORY", "Departure time": "6:30", "Arrival time": "8:40", "comfort title": null, "Price": "67.00€"},
-{"Flight Number": "TO3913", "Origin": "FCO", "Destination": "ORY", "Departure time": "17:45", "Arrival time": "19:55", "comfort title": null, "Price": "236.00€"}
+{"Flight Number": "TO3912", "Origin": "ORY", "Destination": "FCO", "Departure time": "14:55", "Arrival time": "16:55", "comfort title": null, "Price": "184.00€"},
+{"Flight Number": "TO3950", "Origin": "ORY", "Destination": "FCO", "Departure time": "20:35", "Arrival time": "22:35", "comfort title": null, "Price": "209.00€"},
+{"Flight Number": "TO6951", "Origin": "FCO", "Destination": "ORY", "Departure time": "6:30", "Arrival time": "8:40", "comfort title": null, "Price": "54.00€"},
+{"Flight Number": "TO3913", "Origin": "FCO", "Destination": "ORY", "Departure time": "17:45", "Arrival time": "19:55", "comfort title": null, "Price": "184.00€"}
 ]
